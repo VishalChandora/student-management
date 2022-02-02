@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teacher;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -14,7 +16,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::all();
+        $teachers = Teacher::paginate(9);
         return view('teachers.index', compact('teachers'));
     }
 
@@ -25,7 +27,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        //
+        return view('teachers.create');
     }
 
     /**
@@ -36,7 +38,24 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'gender' => 'required|in:male,female',
+            'email' => 'required|unique:teachers',
+            'mobile' => 'required|max:15',
+            'password' => 'required',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        try {
+            Teacher::create($validated);
+
+            return redirect()->route('teachers.index')->with('success', 'Teacher created successfully!');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -58,7 +77,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        //
+        return view('teachers.edit', compact('teachers'));
     }
 
     /**
@@ -70,7 +89,25 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'gender' => 'required|in:male,female',
+            'email' => 'required|unique:teachers',
+            'mobile' => 'required|max:15',
+            'password' => 'required',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        try {
+            Teacher::create($validated);
+
+            return redirect()->route('teachers.index')->with('success', 'Teacher created successfully!');
+        } catch (Exception $e) {
+            throw $e;
+        }
+
     }
 
     /**

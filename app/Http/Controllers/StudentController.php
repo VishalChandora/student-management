@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class StudentController extends Controller
 {
@@ -14,8 +17,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+            $students = Student::paginate(9);
         return view('students.index', compact('students'));
+ 
     }
 
     /**
@@ -25,7 +29,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -36,9 +40,41 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'gender' => 'required|in:male,female',
+            'email' => 'required|unique:teachers',
+            'mobile' => 'required|max:15',
+            'password' => 'required',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        try {
+            Student::create($validated);
+
+            return redirect()->route('students.index')->with('success', 'Student created successfully!');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
+
+    public function search(Request $request)
+    {
+        $search = $request['search'] ?? "";
+        if($search != ""){
+            //where
+            dd($search);
+            $students = Student::where('email', 'LIKE', "%$search%")->orwhere('first_name', 'LIKE', "%$search%")->orwhere('last_name', 'LIKE', "%$search%")->get();
+        }else{
+            $students = Student::paginate(9);
+        }
+        
+        return view('students.search', compact('students','search'));
+     }
+    
     /**
      * Display the specified resource.
      *
@@ -47,8 +83,8 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
-    }
+
+     }
 
     /**
      * Show the form for editing the specified resource.
@@ -83,4 +119,5 @@ class StudentController extends Controller
     {
         //
     }
+
 }

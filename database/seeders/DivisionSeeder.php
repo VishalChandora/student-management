@@ -1,12 +1,11 @@
 <?php
 
 namespace Database\Seeders;
-
 use App\Models\Section;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SectionSeeder extends Seeder
+class DivisionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,18 +14,16 @@ class SectionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('sections')->insertOrIgnore([[
-            'name' => 'FYBSCIT',
+        DB::table('divisions')->insertOrIgnore([[
+            'name' => 'A',
             'created_at' => now(),
             'updated_at' => now()
         ], [
-            'name' => 'SYBSCIT',
-            'created_at' => now(),
-            'updated_at' => now()
-        ], [
-            'name' => 'TYBSCIT',
+            'name' => 'B',
             'created_at' => now(),
             'updated_at' => now()
         ]]);
+
+
     }
 }

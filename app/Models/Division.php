@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Division extends Model
 {
     use HasFactory;
+
+       /**
+     * @var array $fillable
+     */
+    protected $fillable = [
+        'div',
+    ];
 }

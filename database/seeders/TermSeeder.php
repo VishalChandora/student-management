@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Section;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SectionSeeder extends Seeder
+class TermSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,18 +14,21 @@ class SectionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('sections')->insertOrIgnore([[
-            'name' => 'FYBSCIT',
+        DB::table('terms')->insertOrIgnore([[
+            'name' => '2021-2022',
             'created_at' => now(),
             'updated_at' => now()
-        ], [
-            'name' => 'SYBSCIT',
+        ],
+        [
+            'name' => '2022-2023',
             'created_at' => now(),
             'updated_at' => now()
-        ], [
-            'name' => 'TYBSCIT',
+        ],
+        [
+            'name' => '2023-2024',
             'created_at' => now(),
             'updated_at' => now()
         ]]);
+
     }
 }

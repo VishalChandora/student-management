@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +30,14 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', [UserAuthController::class, 'dashboard'])->name('admin.showDashboard');
 
         Route::resource('teachers', TeacherController::class);
-        Route::resource('students', StudentController::class);
 
+        Route::resource('students', StudentController::class);
+        
+        Route::resource('attendances',AttendanceController::class);
+
+        Route::get('student-attendances',[AttendanceController::class, 'addAttendance'])->name('admin.student-attendances.create');
+        Route::get('student-attendances-add',[AttendanceController::class, 'store'])->name('admin.student-attendances.store');
+
+        Route::get('student-search',[SearchController::class, 'search'])->name('admin.student-search');    
     });
 });

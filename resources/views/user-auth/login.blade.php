@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-8">
+        <div class="col-6">
             <div class="card">
                 <div class="card-header">{{ __('Admin Login') }}</div>
 
@@ -28,7 +28,7 @@
                             <label for="email" class="col-4 col-form-label text-end">{{ __('Email Address') }}</label>
 
                             <div class="col-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="example123@gmail.com"value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -42,7 +42,7 @@
                             <label for="password" class="col-4 col-form-label text-end">{{ __('Password') }}</label>
 
                             <div class="col-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password" required autocomplete="current-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -52,8 +52,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-8 offset-4">
+                        <div class="row mb-0 col-12">
+                            <div class="col-8 offset-6">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
@@ -65,4 +65,5 @@
         </div>
     </div>
 </div>
+
 @endsection

@@ -5,14 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class StudentAttendance extends Model
 {
     use HasFactory;
-    
-    /**
-     * @var array $fillable
-     */
-    protected $fillable = [
-        'name',
-    ];
 }
