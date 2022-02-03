@@ -6,7 +6,7 @@
     <section class="content-header">
         <div class="row">
             <div class="col-12">
-                <h2>Attendance</h2>
+                <h2>Marks</h2>
                 <hr>
             </div>
         </div>
@@ -23,7 +23,7 @@
             {{ Session::get('fail') }}
         </div>
         @endif
-        <form method="post" action="{{ route('admin.student-attendances.store') }}">
+        <form method="post" action="{{ route('admin.student-marks.store') }}">
             @csrf
             <div class="row justify-content-center">
                 <div class="mb-3 col-3">
@@ -84,20 +84,20 @@
             </div>
             <div class="row justify-content-center">
                 <div class="form-group mb-3 col-3">
-                    <label for="date" class="form-label" Required>Date </label>
+                    <label for="date" class="form-label" Required>Exam Date </label>
                     <input type="date" class="form-control" name="date" id="date" placeholder="Pick A Date">
                     @error('date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="form-group mb-3 col-3">
-                    <label for="start_time" class="form-label" Required>Lecture Started </label>
+                    <label for="start_time" class="form-label" Required>Exam Started </label>
                     <input type="time" class="form-control" name="start_time" id="start_time">
                     @error('slot_start_time') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
                 </div>
 
                 <div class="form-group mb-3 col-3">
-                    <label for="end_time" class="form-label" Required>Lecture Ended </label>
+                    <label for="end_time" class="form-label" Required>Exam Ended </label>
                     <input type="time" class="form-control" name="end_time" id="end_time">
                     @error('slot_end_time') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
@@ -106,33 +106,29 @@
             <hr>
             <div class="col-12">
                 <table class="table table-bordered">
-                    <thead>
+                    <thead >
                         <tr style="text-align:center">
                             <th>Roll No</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Gender</th>
-                            <th>Attendance</th>
+                            <th >Marks</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($classroomStudents as $row)
-                        <tr style="text-align:center">
-                            <td>{{ $row->roll_no }}</td>
-                            <td>{{ $row->student->first_name }}</td>
-                            <td>{{ $row->student->last_name }}</td>
-                            <td>{{ $row->student->gender }}</td>
-                            <td>
-                                <div class="checkbox">
-                                    <label><input type="radio" name="attendances[{{ $row->id }}]" value="present" checked> Present </label>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <label><input type="radio" name="attendances[{{ $row->id }}]" value="absent"> Absent </label>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
+                    @foreach($classroomStudents as $row)
+                    <tr style="text-align:center">
+                        <td>{{ $row->roll_no }}</td>
+                        <td>{{ $row->student->first_name }}</td>
+                        <td>{{ $row->student->last_name }}</td>
+                        <td>{{ $row->student->gender }}</td>
+                        <td>
+                        <input type="text" style="text-align:center" name="ce1_marks" id="ce1_marks" value="" class="" placeholder="Enter CE-1 Mark">
+                        </td>
+                    </tr>
+                    @endforeach
                     </tbody>
                 </table>
+                <hr>
                 <div class="col-11 mb-3 text-end">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

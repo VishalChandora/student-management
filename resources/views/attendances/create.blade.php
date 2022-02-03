@@ -12,13 +12,16 @@
     </section>
     <section class="content">
 
-        
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-
+    @if (Session::get('success'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('success') }}
+        </div>
+        @endif
+        @if (Session::get('fail'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('fail') }}
+        </div>
+        @endif
                 <form action="{{ route('admin.student-attendances.create') }}" method="get">
                     @csrf
                     

@@ -4,8 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\StudentAuthController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\MarkController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +37,24 @@ Route::prefix('admin')->group(function () {
         Route::resource('students', StudentController::class);
         
         Route::resource('attendances',AttendanceController::class);
+            Route::get('student-attendances',[AttendanceController::class, 'createAttendance'])->name('admin.student-attendances.create');
+            Route::post('student-attendances',[AttendanceController::class, 'storeAttendance'])->name('admin.student-attendances.store');
 
-        Route::get('student-attendances',[AttendanceController::class, 'addAttendance'])->name('admin.student-attendances.create');
-        Route::get('student-attendances-add',[AttendanceController::class, 'store'])->name('admin.student-attendances.store');
+        Route::get('student-search',[SearchController::class, 'search'])->name('admin.student-search'); 
 
-        Route::get('student-search',[SearchController::class, 'search'])->name('admin.student-search');    
+        Route::resource('marks',MarkController::class);
+            Route::get('student-marks',[MarkController::class, 'createMark'])->name('admin.student-marks.create');
+            Route::post('student-marks',[MarkController::class, 'storeMark'])->name('admin.student-marks.store');
+
+    });
+});
+
+
+Route::prefix('student')->group(function () {
+    Route::get('login', [StudentAuthController::class, 'showLoginForm'])->name('student.showLogin');
+    Route::post('login', [StudentAuthController::class, 'login'])->name('student.login');
+
+    Route::middleware('auth')->group(function () { 
+        Route::get('dashboard', [StudentAuthController::class, 'dashboard'])->name('student.showDashboard');
     });
 });

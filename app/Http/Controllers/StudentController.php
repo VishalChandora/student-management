@@ -17,9 +17,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-            $students = Student::paginate(9);
+        $students = Student::paginate(9);
         return view('students.index', compact('students'));
- 
     }
 
     /**
@@ -64,17 +63,17 @@ class StudentController extends Controller
     public function search(Request $request)
     {
         $search = $request['search'] ?? "";
-        if($search != ""){
+        if ($search != "") {
             //where
             dd($search);
             $students = Student::where('email', 'LIKE', "%$search%")->orwhere('first_name', 'LIKE', "%$search%")->orwhere('last_name', 'LIKE', "%$search%")->get();
-        }else{
+        } else {
             $students = Student::paginate(9);
         }
-        
-        return view('students.search', compact('students','search'));
-     }
-    
+
+        return view('students.search', compact('students', 'search'));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -83,8 +82,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-
-     }
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -119,5 +117,4 @@ class StudentController extends Controller
     {
         //
     }
-
 }

@@ -41,30 +41,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{route('teachers.index')}}">
-              <span data-feather="user"></span>
-              Teacher
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('students.index')}}">
-              <span data-feather="users"></span>
-              Student
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('attendances.index')}}">
-              <span data-feather="plus-circle"></span>
-              Attendance
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('marks.create')}}">
-              <span data-feather="plus-circle"></span>
-              Add Marks
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="{{route('attendances.index')}}">
               <span data-feather="settings"></span>
               Change Password

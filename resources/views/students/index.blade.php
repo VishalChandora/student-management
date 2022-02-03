@@ -8,7 +8,7 @@
                 <h2>Student</h2>
                 <hr>
             </div>
-        </div>  
+        </div>
     </section>
     <section class="content">
         <form action="" type="GET">

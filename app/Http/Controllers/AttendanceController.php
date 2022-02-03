@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\Division;
 use App\Models\Section;
+use App\Models\StudentAttendance;
 use App\Models\StudentClassroom;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -22,9 +23,11 @@ class AttendanceController extends Controller
      */
     public function index()
     {
+        $attendances = Attendance::with(['term','section','division','teacher','subject'])->paginate(13);
+        return view('attendances.index',compact('attendances'));
     }
 
-    public function addAttendance(Request $request)
+    public function createAttendance(Request $request)
     {
         $formFields = $request->all();
 
@@ -37,6 +40,54 @@ class AttendanceController extends Controller
 
         $classroomStudents = StudentClassroom::with('student')->where('term_id',$request->term)->where('section_id',$request->section)->where('division_id',$request->division)->get();
         return view('attendances.add', compact('classroomStudents', 'terms', 'sections', 'divisions', 'teachers', 'subjects'));   
+    }
+
+    public function storeAttendance(Request $request)
+    {
+       
+
+        // validation
+        $request->validate([
+            'term' => 'required',
+            'section' => 'required',
+            'division' => 'required',
+            'teacher' => 'required',
+            'subject' => 'required',
+            'date' => 'required',
+            'start_time'=> 'required',
+            'end_time'=> 'required',
+            'attendances' => 'required|array',
+        ]); 
+        // DB Trasaction
+
+        // insert into Attendance
+           $attendance = Attendance::create([            
+            'term_id'=>$request->input('term'),
+            'section_id'=>$request->input('section'),  
+            'division_id'=>$request->input('division'),
+            'teacher_id'=>$request->input('teacher'),
+            'subject_id'=>$request->input('subject'),
+            'date'=>$request->input('date'),
+            'slot_start_time'=>$request->input('start_time'),
+            'slot_end_time'=>$request->input('end_time')
+            ]);
+        // empty array studentAttendances
+        
+        foreach($request->attendances as $id=> $value){
+            StudentAttendance::create([
+                'student_classroom_id'=>$id,
+                'attendence_id'=>$attendance->id,
+                'is_present'=>$value === 'present' ? true:false
+            ]);
+        } 
+
+        
+            // studentAttendances -> student_classroom_id (key), attendence_id, is_present (value === present ? true : false)
+            // array push
+
+            // StudentAttendance :: create --> studentAttendances
+        // redirect to success
+        return redirect()->route('attendances.create')->with('success', 'Attendances added successfully!');
     }
 
     
@@ -63,39 +114,8 @@ class AttendanceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
-            'term' => 'required|max:255',
-            'section' => 'required|max:255',
-            'division' => 'required|in:A,B',
-            'teacher' => 'required|max:255',
-            'subject' => 'required|max:255',
-            'date' => 'required',
-            'start_time'=> 'required',
-            'end_time'=> 'required',
-            'attendances' => 'required|array',
-        ]); 
-
-        $query = DB::table('attendances')->insert([
-            'term'=>$request->input('term_id'),
-            'section'=>$request->input('section_id'),
-            'division'=>$request->input('division_id'),
-            'teacher'=>$request->input('teacher_id'),
-            'subject'=>$request->input('subject_id'),
-            'date'=>$request->input('date'),
-            'start_time'=>$request->input('slot_start_time'),
-            'end_time'=>$request->input('slot_end_time'),
-        ]);
-
-        if($query){
-            return redirect()->route('attendances.create')->with('success', 'Attendance Added successfully!');
-            
-        }else{
-            return back()->with('fail','something went wrong');
-        }
- 
-        // return $request->input();
     }
 
     /**
@@ -104,9 +124,9 @@ class AttendanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Attendance $attendance)
     {
-        //
+        return view('attendances.show',compact('attendance'));
     }
 
     /**

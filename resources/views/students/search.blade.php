@@ -7,7 +7,7 @@
                 <h2>Student</h2>
                 <hr>
             </div>
-        </div>  
+        </div>
     </section>
     <section class="content">
         <form action="{{route('admin.student-search')}}" type="GET">
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </form>
-@if(isset($students))
+        @if(isset($students))
         <div class="row">
             <div class="col-12">
                 <table class="table table-bordered">
@@ -41,8 +41,8 @@
                     </thead>
                     <tbody>
                         @if(count($students) > 0)
-                            @foreach($students as $student)
-                            <tr>
+                        @foreach($students as $student)
+                        <tr>
                             <td>{{ $student->id }}</td>
                             <td>{{ $student->first_name }}</td>
                             <td>{{ $student->last_name }}</td>
@@ -53,12 +53,12 @@
                             <td>
                                 <a href="" class="btn btn-primary">Edit</a>
                             </td>
-                            </tr>
+                        </tr>
                         @else
 
                         @endif
                     </tbody>
-                  
+
                 </table>
 
             </div>
